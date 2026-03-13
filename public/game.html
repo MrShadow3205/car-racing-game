@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NitroRush — Race!</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+</head>
+<body class="game-page">
+
+  <div class="game-wrapper">
+
+    <!-- HUD -->
+    <div class="hud">
+      <div class="hud-item">
+        <span class="hud-label">PLAYER</span>
+        <span class="hud-value" id="hudName">—</span>
+      </div>
+      <div class="hud-item hud-center">
+        <span class="hud-label">SCORE</span>
+        <span class="hud-value score-display" id="hudScore">0</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">SPEED</span>
+        <span class="hud-value" id="hudSpeed">1x</span>
+      </div>
+    </div>
+
+    <!-- Canvas -->
+    <div class="canvas-wrap">
+      <canvas id="gameCanvas" width="480" height="640"></canvas>
+
+      <!-- Overlay screens -->
+      <div class="overlay" id="countdownOverlay">
+        <div class="countdown-box">
+          <div class="countdown-num" id="countdownNum">3</div>
+          <p>GET READY!</p>
+        </div>
+      </div>
+
+      <div class="overlay hidden" id="gameOverOverlay">
+        <div class="game-over-box">
+          <div class="crash-icon">💥</div>
+          <h2>GAME OVER</h2>
+          <p class="go-player" id="goPlayerName"></p>
+          <div class="final-score-wrap">
+            <span class="final-score-label">YOUR SCORE</span>
+            <span class="final-score-value" id="finalScore">0</span>
+          </div>
+          <div class="go-buttons">
+            <button class="btn-play-again" onclick="restartGame()">🔄 PLAY AGAIN</button>
+            <a href="/leaderboard" class="btn-leaderboard-go">🏆 LEADERBOARD</a>
+            <a href="/" class="btn-home">🏠 HOME</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

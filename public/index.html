@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NitroRush — Car Racing</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+</head>
+<body class="start-page">
+
+  <!-- Animated road background -->
+  <div class="bg-road">
+    <div class="lane-marks" id="laneMarks"></div>
+    <div class="road-edges"></div>
+  </div>
+
+  <!-- Floating particles -->
+  <div class="particles" id="particles"></div>
+
+  <div class="start-container">
+    <div class="logo-area">
+      <div class="logo-car">🏎️</div>
+      <h1 class="game-title">NITRO<span>RUSH</span></h1>
+      <p class="game-subtitle">High-Speed Street Racing</p>
+    </div>
+
+    <div class="start-card">
+      <div class="input-group">
+        <label for="playerName">ENTER YOUR NAME</label>
+        <input
+          type="text"
+          id="playerName"
+          placeholder="e.g. SpeedRacer"
+          maxlength="20"
+          autocomplete="off"
+        />
+        <span class="input-glow"></span>
+      </div>
+
+      <button class="btn-start" id="startBtn" onclick="startGame()">
+        <span class="btn-icon">▶</span>
+        START RACE
+      </button>
+
+      <a href="/leaderboard" class="btn-leaderboard">
+        🏆 LEADERBOARD
+      </a>
+    </div>
+
+    <div class="instructions">
+      <h3>HOW TO PLAY</h3>
+      <div class="inst-grid">
+        <div class="inst-item">
+          <span class="inst-key">◀ ▶</span>
+          <span>Move Car</span>
+        </div>
+        <div class="inst-item">
+          <span class="inst-key">⚠️</span>
+          <span>Avoid Enemies</span>
+        </div>
+        <div class="inst-item">
+          <span class="inst-key">⏱️</span>
+          <span>Survive Longer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Animated lane marks on start screen
+    const laneMarks = document.getElementById('laneMarks');
+    for (let i = 0; i < 20; i++) {
+      const mark = document.createElement('div');
+      mark.className = 'lane-mark-line';
+      mark.style.left = `${Math.random() * 80 + 10}%`;
+      mark.style.animationDelay = `${Math.random() * 2}s`;
+      mark.style.animationDuration = `${1.5 + Math.random()}s`;
+      laneMarks.appendChild(mark);
+    }
+
+    // Floating particles
+    const particlesEl = document.getElementById('particles');
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = `${Math.random() * 100}%`;
+      p.style.top = `${Math.random() * 100}%`;
+      p.style.animationDelay = `${Math.random() * 4}s`;
+      p.style.animationDuration = `${3 + Math.random() * 4}s`;
+      p.style.width = p.style.height = `${2 + Math.random() * 4}px`;
+      particlesEl.appendChild(p);
+    }
+
+    function startGame() {
+      const name = document.getElementById('playerName').value.trim();
+      if (!name) {
+        document.getElementById('playerName').classList.add('shake');
+        setTimeout(() => document.getElementById('playerName').classList.remove('shake'), 500);
+        document.getElementById('playerName').placeholder = 'Please enter your name!';
+        return;
+      }
+      sessionStorage.setItem('playerName', name);
+      document.querySelector('.btn-start').innerHTML = '<span class="btn-icon">⚡</span> LOADING...';
+      setTimeout(() => {
+        window.location.href = '/game';
+      }, 400);
+    }
+
+    document.getElementById('playerName').addEventListener('keydown', e => {
+      if (e.key === 'Enter') startGame();
+    });
+  </script>
+</body>
+</html>

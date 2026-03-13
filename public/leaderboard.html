@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NitroRush — Leaderboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+</head>
+<body class="leaderboard-page">
+
+  <div class="lb-bg">
+    <div class="lb-glow lb-glow-1"></div>
+    <div class="lb-glow lb-glow-2"></div>
+  </div>
+
+  <div class="lb-container">
+
+    <div class="lb-header">
+      <a href="/" class="btn-back">← BACK</a>
+      <div class="lb-title-wrap">
+        <span class="trophy-big">🏆</span>
+        <h1 class="lb-title">LEADERBOARD</h1>
+        <p class="lb-subtitle">Top 10 Racers of All Time</p>
+      </div>
+    </div>
+
+    <div class="lb-table-wrap" id="lbTableWrap">
+      <div class="lb-loading" id="lbLoading">
+        <div class="spinner"></div>
+        <p>Loading scores...</p>
+      </div>
+
+      <table class="lb-table hidden" id="lbTable">
+        <thead>
+          <tr>
+            <th>RANK</th>
+            <th>PLAYER</th>
+            <th>SCORE</th>
+            <th>DATE</th>
+          </tr>
+        </thead>
+        <tbody id="lbBody"></tbody>
+      </table>
+
+      <div class="lb-empty hidden" id="lbEmpty">
+        <p>🏁 No scores yet! Be the first to race!</p>
+        <a href="/" class="btn-race-now">START RACING</a>
+      </div>
+    </div>
+
+    <div class="lb-footer">
+      <a href="/" class="btn-play-lb">🚗 PLAY NOW</a>
+    </div>
+
+  </div>
+
+  <script>
+    const rankEmojis = ['🥇', '🥈', '🥉'];
+
+    async function loadLeaderboard() {
+      try {
+        const res = await fetch('/api/leaderboard');
+        const scores = await res.json();
+
+        document.getElementById('lbLoading').classList.add('hidden');
+
+        if (!scores.length) {
+          document.getElementById('lbEmpty').classList.remove('hidden');
+          return;
+        }
+
+        const tbody = document.getElementById('lbBody');
+        scores.forEach((entry, i) => {
+          const rank = i + 1;
+          const date = new Date(entry.date).toLocaleDateString('en-IN', {
+            day: '2-digit', month: 'short', year: 'numeric'
+          });
+
+          const tr = document.createElement('tr');
+          tr.className = rank <= 3 ? `top-rank rank-${rank}` : '';
+          tr.style.animationDelay = `${i * 0.07}s`;
+          tr.innerHTML = `
+            <td class="rank-cell">${rankEmojis[i] || rank}</td>
+            <td class="name-cell">${escapeHtml(entry.playerName)}</td>
+            <td class="score-cell">${entry.score.toLocaleString()}</td>
+            <td class="date-cell">${date}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        document.getElementById('lbTable').classList.remove('hidden');
+
+      } catch (err) {
+        document.getElementById('lbLoading').innerHTML = '<p style="color:#ff4444">⚠️ Failed to load scores. Is the server running?</p>';
+      }
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    loadLeaderboard();
+  </script>
+</body>
+</html>
