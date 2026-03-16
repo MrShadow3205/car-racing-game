@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>NitroRush — Race!</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏎️</text></svg>">
   <link rel="stylesheet" href="style.css" />
@@ -56,6 +56,17 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Mobile Touch Controls -->
+    <div class="touch-controls" id="touchControls">
+      <button class="touch-btn touch-left" id="btnLeft" ontouchstart="touchStart('left')" ontouchend="touchEnd('left')">
+        ◀
+      </button>
+      <div class="touch-hint">SWIPE or TAP to steer</div>
+      <button class="touch-btn touch-right" id="btnRight" ontouchstart="touchStart('right')" ontouchend="touchEnd('right')">
+        ▶
+      </button>
     </div>
 
   </div>

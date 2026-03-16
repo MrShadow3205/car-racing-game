@@ -74,10 +74,55 @@ const stars = Array.from({ length: 60 }, () => ({
   opacity: Math.random() * 0.5 + 0.2
 }));
 
-// ─── Input ───────────────────────────────────────────────────
+// ─── Input: Keyboard ─────────────────────────────────────────
 const keys = {};
 document.addEventListener('keydown', e => keys[e.key] = true);
 document.addEventListener('keyup',   e => keys[e.key] = false);
+
+// ─── Input: Touch buttons ────────────────────────────────────
+function touchStart(dir) {
+  if (gameState !== 'running') return;
+  const btn = document.getElementById(dir === 'left' ? 'btnLeft' : 'btnRight');
+  if (btn) btn.classList.add('pressed');
+  if (dir === 'left' && player.lane > 0) {
+    player.lane--;
+    player.targetX = laneCenter(player.lane);
+  } else if (dir === 'right' && player.lane < NUM_LANES - 1) {
+    player.lane++;
+    player.targetX = laneCenter(player.lane);
+  }
+}
+
+function touchEnd(dir) {
+  const btn = document.getElementById(dir === 'left' ? 'btnLeft' : 'btnRight');
+  if (btn) btn.classList.remove('pressed');
+}
+
+// ─── Input: Swipe gestures ───────────────────────────────────
+let swipeStartX = 0;
+let swipeStartY = 0;
+
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  swipeStartX = e.touches[0].clientX;
+  swipeStartY = e.touches[0].clientY;
+}, { passive: false });
+
+canvas.addEventListener('touchend', e => {
+  e.preventDefault();
+  if (gameState !== 'running') return;
+  const dx = e.changedTouches[0].clientX - swipeStartX;
+  const dy = Math.abs(e.changedTouches[0].clientY - swipeStartY);
+  if (Math.abs(dx) > 30 && dy < 60) {
+    if (dx < 0 && player.lane > 0) {
+      player.lane--;
+      player.targetX = laneCenter(player.lane);
+    } else if (dx > 0 && player.lane < NUM_LANES - 1) {
+      player.lane++;
+      player.targetX = laneCenter(player.lane);
+    }
+  }
+}, { passive: false });
 
 // ─── Countdown ───────────────────────────────────────────────
 let countdown = 3;

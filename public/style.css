@@ -751,3 +751,81 @@ body {
   .lb-table td.date-cell { display: none; }
   .hud-value { font-size: 14px; }
 }
+
+/* ═══════════════════════════════════════════════
+   MOBILE TOUCH CONTROLS
+═══════════════════════════════════════════════ */
+
+.touch-controls {
+  display: none; /* hidden on desktop */
+  width: 100%;
+  max-width: 480px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  gap: 12px;
+}
+
+.touch-btn {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid rgba(245,230,66,0.5);
+  background: rgba(245,230,66,0.1);
+  color: var(--neon-yellow);
+  font-size: 32px;
+  cursor: pointer;
+  transition: background 0.1s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+}
+
+.touch-btn:active,
+.touch-btn.pressed {
+  background: rgba(245,230,66,0.35);
+  border-color: var(--neon-yellow);
+  transform: scale(0.93);
+  box-shadow: 0 0 24px rgba(245,230,66,0.4);
+}
+
+.touch-hint {
+  font-family: var(--font-display);
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  text-align: center;
+  flex: 1;
+}
+
+/* Show touch controls only on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .touch-controls {
+    display: flex;
+  }
+}
+
+/* Make canvas fill phone screen width */
+@media (max-width: 500px) {
+  .game-page {
+    padding: 8px;
+    justify-content: flex-start;
+    padding-top: 12px;
+  }
+  .game-wrapper {
+    gap: 8px;
+  }
+  .canvas-wrap {
+    width: 100%;
+    max-width: 100%;
+  }
+  .hud {
+    width: 100%;
+  }
+  .touch-controls {
+    display: flex;
+  }
+}
