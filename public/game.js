@@ -421,7 +421,7 @@ async function triggerGameOver(crashX, crashY) {
   if (!scoreSaved) {
     scoreSaved = true;
     try {
-      await fetch('/save-score', {
+      await fetch('/api/save-score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ playerName, score })
